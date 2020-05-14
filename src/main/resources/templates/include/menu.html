@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+
+	<!-- fragment1 -->
+	<div th:fragment="sidemenu"> <!-- /include/menu::sidemenu  풀네임-->
+		<div><span th:text="${session.loginMember}"></span>님</div>
+		<ul>
+			<li><a th:href="@{/home}"></a>홈</li>
+			<li><a th:href="@{/memberInfo}"></a>회원정보</li>
+			<li><a th:href="@{/cashbookList}"></a>가계부 관리</li>
+			<li><a th:href="@{/boardList}"></a>게시판</li>
+			<li><a th:href="@{/logout}"></a>로그아웃</li>
+		</ul>
+	</div>
+	
+	<!-- fragment2 -->
+	
+	<!-- fragment3 -->
+	
+	<!-- fragment4 -->
+
+
+</body>
+</html>
