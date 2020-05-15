@@ -8,13 +8,13 @@
 
 	<!-- fragment1 -->
 	<div th:fragment="sidemenu"> <!-- /include/menu::sidemenu  풀네임-->
-		<div><span th:text="${session.loginMember}"></span>님</div>
+		<div><span th:text="${session.loginMember.memberId}">님</span></div>
 		<ul>
-			<li><a th:href="@{/home}"></a>홈</li>
-			<li><a th:href="@{/memberInfo}"></a>회원정보</li>
-			<li><a th:href="@{/cashbookList}"></a>가계부 관리</li>
-			<li><a th:href="@{/boardList}"></a>게시판</li>
-			<li><a th:href="@{/logout}"></a>로그아웃</li>
+			<li><a th:href="@{/home}">홈</a></li>
+			<li><a th:href="@{/memberInfo}">회원정보</a></li>
+			<li><a th:href="@{/cashbookList}">가계부 관리</a></li>
+			<li><a th:href="@{/boardList}">게시판</a></li>
+			<li><a th:href="@{/logout}">로그아웃</a></li>
 		</ul>
 	</div>
 	

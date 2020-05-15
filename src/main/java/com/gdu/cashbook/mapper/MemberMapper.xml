@@ -21,14 +21,14 @@
  	)
  </insert>
  
- <delete id="deleteMember" parameterType="com.gdu.cashbook.vo.Member">
+ <delete id="deleteMember" parameterType="com.gdu.cashbook.vo.LoginMember">
  	DELETE FROM member 
  	WHERE member_id = #{memberId} 
  	AND	  member_pw = #{memberPw}
  </delete>
  
  <!-- 아이디 찾기 selectMemberIdByMember -->
- <select id="selectMemberIdByMember" parameterType="com.gdu.cashbook.vo.LoginMember" resultType="com.gdu.cashbook.vo.LoginMember">
+ <select id="selectMemberIdByMember" parameterType="com.gdu.cashbook.vo.Member" resultType="String">
  	SELECT
  		CONCAT(SUBSTRING(member_id ,1,3),'****')  <!-- **로 아이디 자르는 쿼리  -->
  	FROM member
@@ -68,16 +68,16 @@
  
  <select id="selectMemberOne"
  	parameterType="com.gdu.cashbook.vo.LoginMember"
- 	resultType="com.gdu.cashbook.vo.LoginMember">
+ 	resultType="com.gdu.cashbook.vo.Member">
  	SELECT	
- 		member_id  memberId,
- 		member_name  memberPw,
- 		member_addr  memberAddr,
- 		member_phone memberPhone,
- 		member_email  memberEmail,
- 		member_pic memberPic
+ 		member_id  as memberId,
+ 		member_name as memberName,
+ 		member_addr as memberAddr,
+ 		member_phone as memberPhone,
+ 		member_email as memberEmail,
+ 		member_pic as memberPic
  		FROM member
- 		WHERE member_id#{memberId}
+ 		WHERE member_id=#{memberId}
  	</select>
  
  <select id="selectMemberId" parameterType="String" resultType="String">

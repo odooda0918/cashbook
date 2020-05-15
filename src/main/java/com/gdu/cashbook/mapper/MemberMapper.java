@@ -18,6 +18,6 @@ public interface MemberMapper {
 	public String selectMemberId(String MemberIdCheck);
 	public void insertMember(Member member);
 	public LoginMember selectLoginMember(LoginMember loginMember);
-	public int deleteMember(LoginMember loginMember);
+	public void deleteMember(LoginMember loginMember);
 	
 }
