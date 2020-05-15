@@ -20,7 +20,15 @@
 		<a th:href="@{/removeMember}">회원탈톼</a>
 		<a th:href="@{/modifyMember}">회원수정</a>
 	</div>
-	<table class="table">
+	<table class="table">	
+		<tr>
+			<td>사진</td>
+			<td>
+				<img src="/upload/${member.memberPic}">
+				<!-- <img src="@{/upload/member.memberPic}"> -->
+			</td>
+		</tr>
+	
 		<tr>
 			<td>아이디</td>
 			<td th:text="${member.memberId}"></td>

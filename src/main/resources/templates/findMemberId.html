@@ -12,12 +12,33 @@
 <!-- Latest compiled JavaScript -->
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
 </head>
+<script>
+	$(document).ready(function () {
+		$('#btn').click(function () {
+			$("#myform").submit();
+		})
+	})
+</script>
 <body>
+	<h1> 아이디찾기 </h1>
+	<form id="myform" method="post" th:action="@{/findMemberId}">
+		
+		<div>
+			<input type="text" name ="memberName">
+			member_name:
+		</div>
+		<div>
+			<input type="text" name ="memberPhone">
+			member_phone:
+		</div>
+		<div>
+			<input type="text" name ="memberEmail">
+			member_email:
+		</div>
+		<div>
+			<button id="btn" type="button">아이디찾기</button>
+		</div>
+	</form>
 	
-	<h1>home</h1>
-	<div th:fragment="/include/menu::sidemenu">
-	</div>
-	
-
 </body>
 </html>

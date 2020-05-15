@@ -1,6 +1,7 @@
 package com.gdu.cashbook.controller;
 
 import javax.servlet.http.HttpSession;
+import javax.websocket.Session;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -77,6 +78,52 @@ public class MemberController {	//회원가입폼을 만들기 위한
 		}
 		
 	}
+	
+	//아이디찾기 
+	
+	@GetMapping("/findMemberId")
+	public String findMemberId(HttpSession session) {
+		if(session.getAttribute("loginMember")!=null) {
+			return "redirect:/";
+		}
+		return "findMemberID";
+	}
+	
+	@PostMapping("/findMemberId")
+	public String findMemberId(HttpSession session, Model model, Member member) {
+		if(session.getAttribute("loginMember")!=null) {
+			return "redirect:/";
+		}
+		String memberIdPart = memberService.getMemberIdByMember(member);
+		model.addAttribute("memberIdPart",memberIdPart);
+		return "memberIdView";
+	}
+	
+	//비번찾기
+	
+	@PostMapping("findMemberPw")
+	public String findMemberPw(HttpSession session, Model model, Member member ) {
+		int row = memberService.getMemberPw(member);
+		String msg = "아이디 메일 확인하세요";
+		if(row == 1) {
+			msg="비밀번호를 메일로 전송하였습니다.";
+		}
+		model.addAttribute("msg",msg);
+		return "memberPwView";
+	
+	}
+	
+	@GetMapping("findMemberPw")
+	public String findMemberPw(HttpSession session) {
+		if(session.getAttribute("loginMember")!= null) {
+			return "redirect:/";
+		}
+		return "findMemberPw";
+	}
+	
+	
+	
+	
 	@GetMapping("/logout")
 	public String logout(HttpSession session) {
 		//로그인 아닐떄
@@ -85,6 +132,25 @@ public class MemberController {	//회원가입폼을 만들기 위한
 		}
 		session.invalidate();
 		return "redirect:/"; //로그아웃 시 로그인창으로 가겠다.
+	}
+	
+	@GetMapping("/deleteMember")
+	public String DeleteMember(HttpSession session) {
+		if(session.getAttribute("loginMember") ==null) {
+			return "redirect:/";
+		}
+			return "deleteMember";
+	}
+	
+	@PostMapping("/deleteMember")
+	public String deleteMember(HttpSession session, @RequestParam("memberPw")String memberPw) {
+		if(session.getAttribute("loginMember") ==null) {
+			return "redirect:/";
+		}
+		LoginMember loginMember = (LoginMember)(session.getAttribute("loginMember"));
+		loginMember.setMemberPw(memberPw);
+		memberService.deleteMember(loginMember);
+			return "redirect:/";
 	}
 	
 	

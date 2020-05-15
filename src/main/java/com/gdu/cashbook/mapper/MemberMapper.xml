@@ -13,7 +13,7 @@
  	    member_email
  	)VALUES(
  		#{memberId},
- 		#{memberPw},
+ 		PASSWORD(#{memberPw}), <!-- 암호 안보이게 하는 함수 -->
  		#{memberName},
  		#{memberAddr},
  		#{memberPhone},
@@ -22,12 +22,40 @@
  </insert>
  
  <delete id="deleteMember" parameterType="com.gdu.cashbook.vo.Member">
- 
- 
- 
- 
- 
+ 	DELETE FROM member 
+ 	WHERE member_id = #{memberId} 
+ 	AND	  member_pw = #{memberPw}
  </delete>
+ 
+ <!-- 아이디 찾기 selectMemberIdByMember -->
+ <select id="selectMemberIdByMember" parameterType="com.gdu.cashbook.vo.LoginMember" resultType="com.gdu.cashbook.vo.LoginMember">
+ 	SELECT
+ 		CONCAT(SUBSTRING(member_id ,1,3),'****')  <!-- **로 아이디 자르는 쿼리  -->
+ 	FROM member
+ 	WHERE member_name = #{memberName}
+ 	AND member_phone = #{memberPhone}
+ 	AND member_email = #{memberEmail}
+ 	
+ </select>
+ 
+ <!-- 비번찾기 -->
+ <!-- 사용자가 입력한 id 메일 확인  select -->
+ <!-- 사용자가 입력한 id의 pw 변경 (랜덤물자열) update-->
+ <!-- 사용자가 입력한 id의 변경된 pw 를 select -->
+ <!-- pw를 메일로 전송 -->
+ 
+ <update id="updateMemberPw"
+ 		 parameterType="com.gdu.cashbook.vo.LoginMember">
+ 	UPDATE member 
+ 	SET	member_pw = #{memberPw}
+ 	WHERE member_id = #{memberId}
+ 	AND member_email = #{memberEmail}	
+ 		 
+ </update>
+
+ 		 
+ 
+ 
  
  <select id="selectLoginMember" parameterType="com.gdu.cashbook.vo.LoginMember" resultType="com.gdu.cashbook.vo.LoginMember">
  	SELECT
@@ -35,18 +63,19 @@
  		member_pw memberPw
  	FROM member
  	WHERE member_id = #{memberId}
- 	AND member_pw = #{memberPw}
+ 	AND member_pw = PASSWORD(#{memberPw})
  </select>
  
  <select id="selectMemberOne"
- 	parameterType="com.gdu.cashbook.vo.loginMember"
- 	resultType="com.gdu.cashbook.vo.loginMember">
- 	SELECT
- 		member_id as memberId,
- 		member_name as memberPw,
- 		member_addr as memberAddr,
- 		member_phone as memberPhone,
- 		member_email as memberEmail
+ 	parameterType="com.gdu.cashbook.vo.LoginMember"
+ 	resultType="com.gdu.cashbook.vo.LoginMember">
+ 	SELECT	
+ 		member_id  memberId,
+ 		member_name  memberPw,
+ 		member_addr  memberAddr,
+ 		member_phone memberPhone,
+ 		member_email  memberEmail,
+ 		member_pic memberPic
  		FROM member
  		WHERE member_id#{memberId}
  	</select>
@@ -54,7 +83,9 @@
  <select id="selectMemberId" parameterType="String" resultType="String">
  	SELECT
  	 member_id
-    FROM member
+    FROM( SELECT member_id FROM member
+    	UNION
+    	SELECT memberid FROM memberid) t
     WHERE member_id=#{memberIdCheck}
  </select>
  

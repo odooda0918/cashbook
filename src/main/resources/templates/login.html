@@ -78,6 +78,12 @@
 			<span th:text="${msg}" id="loginMsg"></span>
 		</div>
 		<div>
+			<a th:href="@{findMemberId}">아이디가 기억나지 않아요.</a> 
+			<!--이름 메일 번호를 입력하면 아이디를 가르쳐줌 -->
+			<a th:href="@{findMemberPw}">비밀번호가 기억나지 않아요.</a> 
+			<!-- 아이디,이메일 : 이메일로 관리자가 변경한 비밀번호를 보냄 -->
+		</div>
+		<div>
 			<button type="button" id="btn" class="btn btn-primary">로그인</button>
 		</div>
 	</form>
