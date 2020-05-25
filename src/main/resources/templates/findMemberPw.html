@@ -12,6 +12,13 @@
 <!-- Latest compiled JavaScript -->
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
 </head>
+<script>
+	$(document).ready(function () {
+		$('#btn').click(function () {
+			$("#myform").submit();
+		})
+	})
+</script>
 <body>
 	<h1>비밀번호 찾기</h1>
 		<form method="post" th:action="@{/findMemberPw}">
@@ -21,9 +28,12 @@
 		</div>
 		<div>
 			메일:
+			
 			<input type="text" name="memberEmail">
 		</div>
-
+		<div>
+			<button id="btn" type="button">아이디찾기</button>
+		</div>
 		</form>
 </body>
 </html>

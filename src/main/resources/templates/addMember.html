@@ -102,7 +102,12 @@ let helperInit = function(){
 <div class="title">
 <!-- content -->
 	<h1>회원가입</h1>
-	<form id="idform" method="post" action="/memberIdCheck">
+	<!-- enctype="application/x-www-form-urlencoded -글자형태로 전송  enctype="multipart/form-date" -바이트 형태로 전송 -->
+	<form id="idform" method="post" action="/memberIdCheck"  enctype="multipart/form-date" >
+		<div>
+			사진:
+			<input type="file" name="memebrPic" id="">
+		</div>
 		<div class="form-group confirm">
 			아이디 중복확인:
 			<input type="text" name="memberIdCheck" id="memberIdCheck" class="form-control">

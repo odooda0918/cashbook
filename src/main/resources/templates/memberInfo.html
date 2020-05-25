@@ -17,14 +17,14 @@
 	<h1>memberInfo</h1>
 	<div th:include="/include/menu::sidemenu"></div>
 	<div>
-		<a th:href="@{/removeMember}">회원탈톼</a>
+		<a th:href="@{/removeMember}">회원탈퇴</a>
 		<a th:href="@{/modifyMember}">회원수정</a>
 	</div>
 	<table class="table">	
 		<tr>
 			<td>사진</td>
 			<td>
-				<img src="/upload/${member.memberPic}">
+				<img th:src="@{${'/upload/'+member.memberPic}}">
 				<!-- <img src="@{/upload/member.memberPic}"> -->
 			</td>
 		</tr>
@@ -49,12 +49,6 @@
 			<td>이메일</td>
 			<td th:text="${member.memberEmail}"></td>
 		</tr>
-	
-		
-	
-	
-	
-	
 	</table>
 </div>
 

@@ -1,6 +1,8 @@
 package com.gdu.cashbook.vo;
 
-public class Member {
+import org.springframework.web.multipart.MultipartFile;
+
+public class MemberForm {
 	private String memberId;
 	private String memberPw;
 	private String memberName;
@@ -8,7 +10,7 @@ public class Member {
 	private String memberPhone;
 	private String memberEmail;
 	private String memberDate;
-	private String memberPic;
+	private MultipartFile memberPic;
 	public String getMemberId() {
 		return memberId;
 	}
@@ -51,18 +53,18 @@ public class Member {
 	public void setMemberDate(String memberDate) {
 		this.memberDate = memberDate;
 	}
-	public String getMemberPic() {
+	public MultipartFile getMemberPic() {
 		return memberPic;
 	}
-	public void setMemberPic(String memberPic) {
+	public void setMemberPic(MultipartFile memberPic) {
 		this.memberPic = memberPic;
 	}
 	@Override
 	public String toString() {
-		return "Member [memberId=" + memberId + ", memberPw=" + memberPw + ", memberName=" + memberName
+		return "MemberForm [memberId=" + memberId + ", memberPw=" + memberPw + ", memberName=" + memberName
 				+ ", memberAddr=" + memberAddr + ", memberPhone=" + memberPhone + ", memberEmail=" + memberEmail
 				+ ", memberDate=" + memberDate + ", memberPic=" + memberPic + "]";
 	}
+	
+	
 }
-	
-	

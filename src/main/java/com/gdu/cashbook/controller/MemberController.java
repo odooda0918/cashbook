@@ -1,24 +1,27 @@
 package com.gdu.cashbook.controller;
 
 import javax.servlet.http.HttpSession;
-import javax.websocket.Session;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.gdu.cashbook.service.MemberService;
 import com.gdu.cashbook.vo.LoginMember;
 import com.gdu.cashbook.vo.Member;
+import com.gdu.cashbook.vo.MemberForm;
 
 @Controller
-public class MemberController {	//회원가입폼을 만들기 위한 
+public class MemberController {	
 	@Autowired
 	private MemberService memberService;
 	
+	
+	//회원정보
 	@GetMapping("/memberInfo")
 	public String memberInfo(HttpSession session, Model model) {
 		if(session.getAttribute("loginMember")==null) {
@@ -26,7 +29,7 @@ public class MemberController {	//회원가입폼을 만들기 위한
 			
 		}
 		Member member = memberService.getMemberOne((LoginMember)(session.getAttribute("loginMember")));
-		
+		System.out.println(member+"<-member");
 		model.addAttribute("member",member);
 		return "memberInfo";
 	}
@@ -86,7 +89,7 @@ public class MemberController {	//회원가입폼을 만들기 위한
 		if(session.getAttribute("loginMember")!=null) {
 			return "redirect:/";
 		}
-		return "findMemberID";
+		return "findMemberId";
 	}
 	
 	@PostMapping("/findMemberId")
@@ -95,15 +98,22 @@ public class MemberController {	//회원가입폼을 만들기 위한
 			return "redirect:/";
 		}
 		String memberIdPart = memberService.getMemberIdByMember(member);
+		System.out.println(memberIdPart+"<--memberIdPart");
+		if(memberIdPart == null) {
+			model.addAttribute("msg","입력한 정보와 일치하지 않음.");
+				return "findMemberId";
+		}
+		memberIdPart = "회원님의 아이디는" +memberIdPart +"입니다.";
 		model.addAttribute("memberIdPart",memberIdPart);
 		return "memberIdView";
 	}
 	
 	//비번찾기
 	
-	@PostMapping("findMemberPw")
+	@PostMapping("/findMemberPw")
 	public String findMemberPw(HttpSession session, Model model, Member member ) {
 		int row = memberService.getMemberPw(member);
+		System.out.println(row+"<<-row");
 		String msg = "아이디 메일 확인하세요";
 		if(row == 1) {
 			msg="비밀번호를 메일로 전송하였습니다.";
@@ -113,7 +123,7 @@ public class MemberController {	//회원가입폼을 만들기 위한
 	
 	}
 	
-	@GetMapping("findMemberPw")
+	@GetMapping("/findMemberPw")
 	public String findMemberPw(HttpSession session) {
 		if(session.getAttribute("loginMember")!= null) {
 			return "redirect:/";
@@ -134,22 +144,41 @@ public class MemberController {	//회원가입폼을 만들기 위한
 		return "redirect:/"; //로그아웃 시 로그인창으로 가겠다.
 	}
 	
-	@GetMapping("/deleteMember")
-	public String DeleteMember(HttpSession session) {
+	@PostMapping("/modifyMember")
+	public String modifyMember(RedirectAttributes rttr, MemberForm memberForm, HttpSession session) {
+		if(session.getAttribute("loginMember")==null) {
+			return "redirect:/";
+		}
+		MultipartFile mf = memberForm.getMemberPic();
+		if(memberForm.getMemberPic() !=null && ! mf.getOriginalFilename().equals("")) {
+			if(!memberForm.getMemberPic().getContentType().equals("image/jpeg")&& !memberForm.getMemberPic().getContentType().equals("image/gif")) {
+				rttr.addFlashAttribute("msg1", "파일명을 확인해주세요");
+			}
+		}
+		memberService.modifiyMember(memberForm);
+		return "redirect:/memberInfo";
+	}
+	
+	
+	//회원 삭제
+	
+	@GetMapping("/removeMember")
+	public String removeMember(HttpSession session) {
 		if(session.getAttribute("loginMember") ==null) {
 			return "redirect:/";
 		}
-			return "deleteMember";
+			return "removeMember";
 	}
 	
-	@PostMapping("/deleteMember")
-	public String deleteMember(HttpSession session, @RequestParam("memberPw")String memberPw) {
+	@PostMapping("/removeMember")
+	public String removeMember(HttpSession session, @RequestParam("memberPw")String memberPw) {
 		if(session.getAttribute("loginMember") ==null) {
 			return "redirect:/";
 		}
 		LoginMember loginMember = (LoginMember)(session.getAttribute("loginMember"));
 		loginMember.setMemberPw(memberPw);
-		memberService.deleteMember(loginMember);
+		memberService.removeMember(loginMember);
+			session.invalidate();
 			return "redirect:/";
 	}
 	
@@ -165,13 +194,14 @@ public class MemberController {	//회원가입폼을 만들기 위한
 	}
 	
 	@PostMapping("/addMember")
-	public String addMember(Member member, HttpSession session) {
+	public String addMember(MemberForm memberForm, HttpSession session) {
 		//로그인 중일떄
 		if(session.getAttribute("loginMember") !=null) {
 			return "redirect:/";
 		}
-		memberService.addMember(member);
-		System.out.println(member);
+		memberService.addMember(memberForm);
+	//  service : memberForm -> member+ 폴더에 파일도 저장
+		System.out.println(memberForm+"<-memberForm");
 		return "redirect:/index";
 	}
 }
