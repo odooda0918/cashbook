@@ -17,12 +17,38 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.gdu.cashbook.service.CashService;
 import com.gdu.cashbook.vo.Cash;
+import com.gdu.cashbook.vo.Category;
 import com.gdu.cashbook.vo.LoginMember;
 import com.gdu.cashbook.vo.DayAndPrice;
 
 @Controller
 public class CashController {
 	@Autowired private CashService cashService;
+	
+	
+	@GetMapping("/modifyCash")
+	public String modifyCash(Model model, HttpSession session, @RequestParam(value="cashNo")int cashNo, @RequestParam(value="day", required = false)@ DateTimeFormat(pattern = "yyyy-MM-dd")LocalDate day) {
+		if(session.getAttribute("loginMember")==null) {
+			return "rediect:/";
+		}
+		if(day==null) {
+				day = LocalDate.now();
+		}
+				Cash cash = cashService.getCashOne(cashNo);
+				System.out.println(cash+"<--cash");
+	
+				List<Category> categoryList = cashService.getCategoryList();
+				System.out.println(categoryList+"<--categoryList");
+				model.addAttribute("cash", cash);
+				System.out.println(cash+"<-cash");
+				model.addAttribute("categoryList",categoryList);
+				System.out.println(categoryList+"categoryList");
+				model.addAttribute("year",day.getYear());
+				model.addAttribute("day",day.toString());
+				System.out.println(day+"<--day");
+				return "/modifyCash";
+	}
+	
 	
 	@GetMapping("/getCashListByMonth")
 	public String getCashListByMonth(HttpSession session,
@@ -55,17 +81,16 @@ public class CashController {
 		model.addAttribute("lastDay",cDay.getActualMaximum(Calendar.DATE)); //마지막일
 		
 		Calendar firstDay = Calendar.getInstance();
-		firstDay.set(Calendar.DATE,1); //일자만 1일로 변경하는것.
+		firstDay.set(Calendar.DATE, 1); //일자만 1일로 변경하는것.
 		//firstDay.get(calendar.DAY_OF_WEEK); 0 일 1 월 2화 3수 4목 5금 6토
 		model.addAttribute("firstDayOfWeek", firstDay.get(Calendar.DAY_OF_WEEK));
-		return "getCashListByMonth";
+		return "/getCashListByMonth";
 	}
 	
 	
 	@GetMapping("/getCashListByDate")
-	public String getCashListByDate(HttpSession session, 
-				Model model, 
-				@RequestParam(value="day", required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate day) {
+	public String getCashListByDate(HttpSession session, Model model, 
+		@RequestParam(value="day", required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate day) {
 		if(day == null) {
 			day = LocalDate.now();
 		}

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+
+<!-- jQuery library -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+<!-- Popper JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+
+<!-- Latest compiled JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+<script>
+	$(document).ready(function(){
+		$("#btn").click(function () {
+			$("#byform").submit();	
+		});
+	});
+	
+</script>
+</head>
+
+<body>
+	<div class="container-fluid">
+	<div class="title">
+		<h1>회원수정</h1>
+		<form id="myform" method="post" action="/modifyMember" enctype="multipart/from-data">
+			<div class="form-group confirm">
+				이미지
+				<img th:src ="@{${'/upload/'+member.memberPic}}">
+				<input type="file" name ="memberPic" id="">
+			</div>
+			<div class="form-group confirm">
+				아이디:
+				<input type="text" th:value="${member.memberId}" name="memberId" id="memberId" class="form-control" readonly="readonly">
+				<span id="idHelper"></span>
+			</div>		
+			<div class="form-group confirm">
+				이름:
+				<input type="text" th:value="${member.memberName}" name="memberName" id="memberName" class="form-control">
+				<span id="NameHelper"></span>
+			</div>		
+			<div class="form-group confirm">
+				주소:
+				<input type="text" th:value="${member.memberAddr}" name="memberAddr" id="memberAddr" class="form-control">
+				<span id="AddrHelper"></span>
+			</div>		
+			<div class="form-group confirm">
+				전화번호:
+				<input type="text" th:value="${member.memberPhone}" name="memberPhone" id="memberPhone" class="form-control">
+				<span id="PhoneHelper"></span>
+			</div>		
+			<div class="form-group confirm">
+				메일:
+				<input type="text" th:value="${member.memberEmail}" name="memberEmail." id="memberEmail" class="form-control">
+				<span id="EmailHelper"></span>
+			</div>		
+		</form> 
+	
+	</div>
+	
+	
+	</div>
+
+
+
+
+</body>

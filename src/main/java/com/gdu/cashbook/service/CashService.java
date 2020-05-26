@@ -9,14 +9,47 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.gdu.cashbook.mapper.CashMapper;
+import com.gdu.cashbook.mapper.CategoryMapper;
 import com.gdu.cashbook.vo.Cash;
+import com.gdu.cashbook.vo.Category;
 import com.gdu.cashbook.vo.DayAndPrice;
 
 @Service
 @Transactional
 public class CashService {
+	@Autowired
+	private CategoryMapper categoryMapper;
 	@Autowired 
 	private CashMapper cashMapper;
+	
+	
+	
+	public List<Category> getCategoryList(){
+		
+		List<Category> list = categoryMapper.selectCategoryList();
+		for(Category c : list) {
+			System.out.println(c.getCategoryName());
+		}
+		return categoryMapper.selectCategoryList();
+		
+	}
+	
+	
+	//가게부 가져오기
+	public Cash getCashOne(int cashNo) {
+		return cashMapper.selectCashOne(cashNo);
+	}
+	
+	
+	//수정
+	public int modifyCash(Cash cash) {
+		return cashMapper.updateCash(cash);
+	}
+	
+	//삭제
+	public void removeCash(Cash cash) {
+		cashMapper.deleteCash(cash);
+	}
 	
 	
 	
@@ -35,4 +68,5 @@ public class CashService {
 		map.put("cashFindSum", cashFindSum);
 		return map;
 	}
+
 }

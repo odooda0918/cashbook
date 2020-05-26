@@ -5,12 +5,15 @@
   
   
 <mapper namespace="com.gdu.cashbook.mapper.MemberMapper">
+ 
+ 
+ <!-- 이미지 삭제하기 -->
  <select id ="selectMemberPic" parameterType="String" resultType="String">
  		SELECT member_pic FROM member WHERE member_id = #{memberId}
  </select>
 
 
-
+<!-- 회원가입 -->
  <insert id="insertMember" parameterType="com.gdu.cashbook.vo.Member">
  	INSERT INTO member(
  		member_id,
@@ -18,17 +21,22 @@
  	    member_name,
  	    member_addr,
  	    member_phone,
- 	    member_email
+ 	    member_email,
+ 	    member_date,
+ 	    member_pic
  	)VALUES(
  		#{memberId},
  		PASSWORD(#{memberPw}), <!-- 암호 안보이게 하는 함수 -->
  		#{memberName},
  		#{memberAddr},
  		#{memberPhone},
- 		#{memberEmail}
+ 		#{memberEmail},
+ 		NOW(),
+ 		#{memberPic}
  	)
  </insert>
  
+<!--  회원탈퇴 -->
  <delete id="deleteMember" parameterType="com.gdu.cashbook.vo.LoginMember">
  	DELETE FROM member 
  	WHERE member_id = #{memberId} 
@@ -52,6 +60,7 @@
  <!-- 사용자가 입력한 id의 변경된 pw 를 select -->
  <!-- pw를 메일로 전송 -->
  
+ 
  <update id="updateMemberPw"
  		 parameterType="com.gdu.cashbook.vo.LoginMember">
  	UPDATE member 
@@ -64,7 +73,7 @@
  		 
  
  
- 
+ <!-- 로그인 아이디 확인 -->
  <select id="selectLoginMember" parameterType="com.gdu.cashbook.vo.LoginMember" resultType="com.gdu.cashbook.vo.LoginMember">
  	SELECT
  		member_id memberId,
@@ -74,6 +83,8 @@
  	AND member_pw = PASSWORD(#{memberPw})
  </select>
  
+ 
+ <!-- 회원정보 확인 -->
  <select id="selectMemberOne"
  	parameterType="com.gdu.cashbook.vo.LoginMember"
  	resultType="com.gdu.cashbook.vo.Member">
@@ -88,12 +99,13 @@
  		WHERE member_id=#{memberId}
  	</select>
  
+ <!-- ID 중복 확인 -->
  <select id="selectMemberId" parameterType="String" resultType="String">
  	SELECT
  	 member_id
     FROM( SELECT member_id FROM member
     	UNION
-    	SELECT memberid FROM memberid) t
+    	SELECT memberId FROM memberId) t
     WHERE member_id=#{memberIdCheck}
  </select>
  

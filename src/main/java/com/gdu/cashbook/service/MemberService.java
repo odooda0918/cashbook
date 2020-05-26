@@ -69,7 +69,7 @@ public class MemberService {
 		memberMapper.insertMember(member);
 
 		//파일저장.
-		
+		//bin파일 생성
 		File file = new File(path+memberPic);
 		try {
 			mf.transferTo(file);
@@ -77,6 +77,8 @@ public class MemberService {
 			e.printStackTrace();
 			throw new RuntimeException();
 		}
+		
+		
 		//return memberidMapper.insertMemberid(member);
 		
 	}

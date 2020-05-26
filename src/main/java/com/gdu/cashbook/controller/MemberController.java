@@ -195,10 +195,19 @@ public class MemberController {
 	
 	@PostMapping("/addMember")
 	public String addMember(MemberForm memberForm, HttpSession session) {
+		System.out.println(memberForm);
 		//로그인 중일떄
 		if(session.getAttribute("loginMember") !=null) {
 			return "redirect:/";
 		}
+		System.out.println(memberForm+"<-memberForm");
+		
+		if(memberForm.getMemberPic()!=null) {
+			if(memberForm.getMemberPic().getContentType().equals("image/jpg") && memberForm.getMemberPic().getContentType().equals("img/png")&& memberForm.getMemberPic().getContentType().equals("img/gif")) {
+				return "redirect:/addMember"; //이미지 파일 png jpg 도 아니고 gif도 아닐 경우에는 리턴
+			}
+		}
+		
 		memberService.addMember(memberForm);
 	//  service : memberForm -> member+ 폴더에 파일도 저장
 		System.out.println(memberForm+"<-memberForm");
