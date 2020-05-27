@@ -11,26 +11,77 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
 <!-- Latest compiled JavaScript -->
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+<script>
+	$(document).ready(function(){
+		$('#addbtn').click(function(){
+			$('#addform').submit();	
+		});
+	});
+</script>
 </head>
 <body>
 
 
 <div class="container-fluid">
 	<div th:include="/include/menu::sidemenu"></div>
-	<div class="main">
-		<h1 th:text="${#temporals.format(day,'yyyy')}+ '년 가계부'"></h1>
-		<div id="title">가계부</div>
-		<form id="addForm" method="post" action="/addCash">
-			<table class ="table">
-				
+			<h1>가게부 입력</h1>	
+			<form id="addform" method="post" action="/addCash">
+				<table>
+					<tr>
+						<th>카테고리<th>					
+						<td>
+							<select id="categoryName" name="categoryName">
+								<option value=""> 카테고리 선택</option>
+								<option th:each="category:${categoryList}" th:value="${category.categoryName}" th:text="${category.categoryName}">
+							</select>
+						</td>
+					</tr>
+					<tr>
+						<th>수입 지출</th>
+						<td>
+							<select id="cashFind" name="cashFind">
+								<option value=""> 수입 /지출 선택 </option>
+								<option value="수입" th:selected="${cash.cashFind eq'수입'}"> 수입 </option>
+								<option value="지출" th:selected="${cash.cashFind eq'지출'}"> 지출 </option>
+							</select>						
+						</td>
+					</tr>
+					<tr>
+						<th>금액</th>
+						<td>
+							<input type="text" id="cashPrice" name="cashPrice" th:value="${cashPrice}">						
+						</td>
+					</tr>
+					<tr>
+						<th>장소</th>
+						<td>
+							<input type="text" id="cashPlace" name="cashPlace" th:value="${cashPlace}">
+						</td>
+					</tr>
+					<tr>
+						<th>메모</th>
+						<td>
+							<textarea rows="3" id="cashMemo" name="cashMemo" th:value="${cashMemo}"></textarea>
+						</td>
+					</tr>
+					<tr>
+						<th>날짜</th>
+						<td>
+							<input type="text" id="cashDate" name="cashDate" th:value="${cashDate}">
+						</td>
+					</tr>
+					
+					
+				</table>
+			
+					<div>
+						<button id="addbtn" type="button">입력</button>
+					</div>
+			</form>
 			
 			
-			
-			</table>
 		
-		</form>
 	
-	</div>
 
 </div>
 

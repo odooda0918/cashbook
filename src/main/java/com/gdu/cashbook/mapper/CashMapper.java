@@ -29,6 +29,8 @@ public interface CashMapper {
 	
 	//수정
 	public int updateCash(Cash cash);
+	//가게부 입력
+	public void insertCash(Cash cash);
 
 	
 }

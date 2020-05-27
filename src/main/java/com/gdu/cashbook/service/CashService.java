@@ -69,4 +69,8 @@ public class CashService {
 		return map;
 	}
 
+
+	public void addCash(Cash cash) {
+		cashMapper.insertCash(cash);
+	}
 }
