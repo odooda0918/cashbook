@@ -28,13 +28,13 @@
 			<form id="addform" method="post" action="/addCash">
 				<table>
 					<tr>
-						<th>카테고리<th>					
-						<td>
-							<select id="categoryName" name="categoryName">
-								<option value=""> 카테고리 선택</option>
-								<option th:each="category:${categoryList}" th:value="${category.categoryName}" th:text="${category.categoryName}">
-							</select>
-						</td>
+						<th><label for="categoryName">카테고리</label></th>
+				<td>
+					<select id="categoryName" name="categoryName">
+						<option value="">카테고리를 선택하세요</option>
+						<option th:each="category:${categoryList}" th:value="${category.categoryName}" th:text="${category.categoryName}">
+					</select>
+				</td>
 					</tr>
 					<tr>
 						<th>수입 지출</th>
@@ -78,13 +78,7 @@
 						<button id="addbtn" type="button">입력</button>
 					</div>
 			</form>
-			
-			
-		
-	
 
 </div>
-
-
 </body>
 </html>

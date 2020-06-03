@@ -51,13 +51,13 @@
 				<td th:unless="${cash.cashFind}=='지출'"></td>
 				<td th:text="${cash.cashPlace}"></td>
 				<td th:text="${cash.cashMemo}"></td>
+				<td><a th:href="@{/modifyCash(cashNo=${cash.cashNo})}">수정</a></td>
 				<td><a th:href="@{/removeCash(cashNo=${cash.cashNo})}">삭제</a></td>
-				<td><a href="">수정</a></td>
 			</tr>
 		</tbody>
 	</table>
 	<div>(수입+지출)합계 : <span th:text="${#numbers.formatInteger(cashFindSum,0,'COMMA')}"></span>원</div>
-	<div><button type="button">입력</button></div>
+	<div><a th:href="@{/addCash}"><button type="button">입력</button></a></div>
 </div>
 </body>
 </html> 	

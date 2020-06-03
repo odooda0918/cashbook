@@ -17,7 +17,7 @@
 <script>
 	$(document).ready(function(){
 		$("#btn").click(function () {
-			$("#byform").submit();	
+			$("#myform").submit();	
 		});
 	});
 	
@@ -59,6 +59,9 @@
 				<input type="text" th:value="${member.memberEmail}" name="memberEmail." id="memberEmail" class="form-control">
 				<span id="EmailHelper"></span>
 			</div>		
+			<div>
+				<button type="button" id="btn"> 수정완료 </button>
+			</div>
 		</form> 
 	
 	</div>

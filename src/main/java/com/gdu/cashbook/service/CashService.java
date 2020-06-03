@@ -52,7 +52,7 @@ public class CashService {
 	}
 	
 	
-	
+	//수입지출 총합리스트
 	public List<DayAndPrice> getDayAndPriceList(String memberId, int year, int month) {
 		Map<String, Object> map = new HashMap<>();
 		map.put("memberId", memberId);
@@ -60,6 +60,8 @@ public class CashService {
 		map.put("month", month);
 		return cashMapper.selectDayAndPriceList(map);
 	}
+	
+	//가게부리스트
 	public Map<String, Object> getCashListByDate(Cash cash) {
 		List<Cash> cashList = cashMapper.selectCashListByDate(cash);
 		int cashFindSum = cashMapper.selectCashFindSum(cash);

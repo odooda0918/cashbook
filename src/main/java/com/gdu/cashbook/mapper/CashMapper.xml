@@ -73,7 +73,28 @@
 
 	</select>
 	
+	<!-- 가게부 입력 -->
 	
+	<insert id="insertCash" parameterType="com.gdu.cashbook.vo.Cash">
+		INSERT INTO cash(
+			member_id,
+			cash_date,
+			cash_find,
+			category_name,
+			cash_price,
+			cash_place,
+			cash_memo
+		)VALUES(
+			#{memberId},
+			#{cashDate},
+			#{cashFind},
+			#{categoryName},
+			#{cashPrice},
+			#{cashPlace},
+			#{cashMemo}
+		)
+
+	</insert>
 	
 	
 	<!-- 리스트 출력 -->

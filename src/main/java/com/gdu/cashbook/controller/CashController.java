@@ -1,11 +1,14 @@
 package com.gdu.cashbook.controller;
 
+import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +32,7 @@ public class CashController {
 	//가게부입력
 	@GetMapping("/addCash")
 	public String addCash(Cash cash, Model model, HttpSession session) {
-		System.out.println("/addcash");
+		System.out.println("/addCash");
 		if(session.getAttribute("loginMember")==null) {
 			return "redirect:/";
 		}
@@ -37,6 +40,7 @@ public class CashController {
 		model.addAttribute("day", day);
 		List<Category> categoryList = cashService.getCategoryList();
 		System.out.println(categoryList+"<-categoryList");
+		model.addAttribute("categoryList" ,categoryList);
 		return "addCash";
 	}
 	@PostMapping("/addCash")
@@ -52,9 +56,9 @@ public class CashController {
 	
 	
 	
-	//가게부 수정
+	//가게부 수정 페이지
 	@GetMapping("/modifyCash")
-	public String modifyCash(Model model, HttpSession session, @RequestParam(value="cashNo")int cashNo, @RequestParam(value="day", required = false)@ DateTimeFormat(pattern = "yyyy-MM-dd")LocalDate day) {
+	public String modifyCash(Model model, HttpSession session, @RequestParam(value="cashNo")int cashNo, @RequestParam(value="day", required = false)@DateTimeFormat(pattern = "yyyy-MM-dd")LocalDate day) {
 		if(session.getAttribute("loginMember")==null) {
 			return "rediect:/";
 		}
@@ -75,6 +79,33 @@ public class CashController {
 				System.out.println(day+"<--day");
 				return "/modifyCash";
 	}
+	// 가게부 수정 
+	@PostMapping("/modifyCash")
+	public String modifyCash (Cash cash, HttpSession session) {
+		if(session.getAttribute("loginMember")==null) {
+			return "redirect:/";
+		}
+		cashService.modifyCash(cash);
+		System.out.println(cash+"<--cash");
+		return "redirect:/getCashListByDate?day="+cash.getCashDate();
+	}
+	
+	//가게부 삭제
+	@GetMapping ("/removeCash")
+	public String removeCash(HttpServletRequest request, HttpServletResponse responese, Model model, HttpSession session, Cash cash)throws IOException {
+		if(session.getAttribute("loginMember")==null) {
+			return "redirect:/";
+		}
+		System.out.println(cash.getCashNo()+"<--cashNo");
+		System.out.println(cash.getMemberId()+"<--cashMemberId");
+		model.addAttribute("msg","정말 삭제하시겠습니까?");
+		
+		cashService.removeCash(cash);
+		return "redirect:/getCashListByDate";
+	}
+	
+	
+	
 	
 	
 	@GetMapping("/getCashListByMonth")

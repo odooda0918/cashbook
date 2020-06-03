@@ -133,7 +133,7 @@ public class MemberController {
 	
 	
 	
-	
+	//로그아웃
 	@GetMapping("/logout")
 	public String logout(HttpSession session) {
 		//로그인 아닐떄
@@ -144,11 +144,24 @@ public class MemberController {
 		return "redirect:/"; //로그아웃 시 로그인창으로 가겠다.
 	}
 	
+	//회원수정
+	@GetMapping("/modifyMember")
+	public String modifyMember(Model model, HttpSession session) {
+		if(session.getAttribute("loginMember")==null) {
+			return "redirect:/";
+		}
+		Member member = memberService.getMemberOne((LoginMember)(session.getAttribute("loginMember")));
+		model.addAttribute("member",member);
+		return "modifyMember";
+	}
+	
+	
 	@PostMapping("/modifyMember")
 	public String modifyMember(RedirectAttributes rttr, MemberForm memberForm, HttpSession session) {
 		if(session.getAttribute("loginMember")==null) {
 			return "redirect:/";
 		}
+		//이미지 입력 안되어있을때
 		MultipartFile mf = memberForm.getMemberPic();
 		if(memberForm.getMemberPic() !=null && ! mf.getOriginalFilename().equals("")) {
 			if(!memberForm.getMemberPic().getContentType().equals("image/jpeg")&& !memberForm.getMemberPic().getContentType().equals("image/gif")) {
