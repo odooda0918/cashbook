@@ -26,5 +26,7 @@ public interface MemberMapper {
 	public LoginMember selectLoginMember(LoginMember loginMember);
 	
 	public void deleteMember(LoginMember loginMember);
+
+	public void updateMember(Member member);
 	
 }

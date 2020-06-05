@@ -161,18 +161,19 @@ public class MemberService {
 		String originName = mf.getOriginalFilename();
 		System.out.println(originName+"<-originalName");
 		String memberPic = null;
+		//파일 입력 안될시에 그전 파일이랑 이름같게
 		if(originName.equals("")) {
 			memberPic = originMemberpic;
-		}else{
+		}else{ //파일 확장자
 			File file = new File(path+originMemberpic);
 			//새 파일이 입력되면 기존파일 삭제.
-			if(file.exists() &&! originMemberpic.equals("default.jpg")) {
+			if(file.exists() && !originMemberpic.equals("default.jpg")) {
 				file.delete();
 			}
 			int lastDot = originName.indexOf(".");
 			String extension = originName.substring(lastDot);
 			System.out.println(extension+"<--extension");
-			memberPic = memberForm.getMemberId();
+			memberPic = memberForm.getMemberId()+extension;
 			System.out.println(memberPic+"<--memberPic");
 		}
 		Member member = new Member();
@@ -184,6 +185,7 @@ public class MemberService {
 		member.setMemberName(member.getMemberName());
 		member.setMemberPhone(member.getMemberPhone());
 		member.setMemberPic(memberPic);
+		memberMapper.updateMember(member);
 		
 		if(!originName.equals("")) {
 			//file 저장
@@ -192,7 +194,9 @@ public class MemberService {
 				mf.transferTo(file);
 			}catch (Exception e) {
 				e.printStackTrace();
+			
 				throw new RuntimeException();
+				//rq
 			}
 		}
 	}

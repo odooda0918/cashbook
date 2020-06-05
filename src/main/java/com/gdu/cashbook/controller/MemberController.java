@@ -161,10 +161,11 @@ public class MemberController {
 		if(session.getAttribute("loginMember")==null) {
 			return "redirect:/";
 		}
+		System.out.println(memberForm);
 		//이미지 입력 안되어있을때
 		MultipartFile mf = memberForm.getMemberPic();
 		if(memberForm.getMemberPic() !=null && ! mf.getOriginalFilename().equals("")) {
-			if(!memberForm.getMemberPic().getContentType().equals("image/jpeg")&& !memberForm.getMemberPic().getContentType().equals("image/gif")) {
+			if(!memberForm.getMemberPic().getContentType().equals("image/jpeg")&& !memberForm.getMemberPic().getContentType().equals("image/gif") &&! memberForm.getMemberPic().getContentType().equals("image/gif")) {
 				rttr.addFlashAttribute("msg1", "파일명을 확인해주세요");
 			}
 		}
