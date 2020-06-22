@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+
+<!-- jQuery library -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+<!-- Popper JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+
+<!-- Latest compiled JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+
+</head>
+<body>
+	<div class="container">
+	<h1> 게시글 수정</h1>
+		<div th:include="/include/menu::sidemenu"></div>
+	<form method="post" th:action="@{/modifyBoard}">
+		<div>
+			글제목
+			<input type="text" name="boardTitle" th:value ="${board.boardTitle}">
+		</div>
+		<div>
+			작성자 /작성일
+			<input type="text" name="memberId" th:value ="${board.boardMemberId}" readonly="readonly">
+			<input type="text" name="boardDate" th:value ="${board.boardDate}" readonly="readonly">
+		</div>
+		<div>
+			글제목
+			<textarea rows="7" cols="50" name="boardContent" th:value="${board.boardContent}"></textarea>
+		</div>
+		<div>
+			<button type="button">수정</button>
+		</div>
+		<div>
+			<input type="text" name="boardNo" th:value="${board.boardMo}">
+		</div>
+	
+	</form>
+	</div>
+</body>
+</html>

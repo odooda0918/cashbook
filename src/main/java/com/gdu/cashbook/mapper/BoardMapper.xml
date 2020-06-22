@@ -12,7 +12,7 @@
 			board_content boardContent,
 			member_id memberId,
 			board_date boardDate,
-		FORM board
+		FORM cashbook_board
 		WHERE board_title LIKE CONCAT('%',#{searchWord},'%')
 		ORDER BY board_no DESC
 		LIMIT #{beginRow}, #{rowPerPage}
@@ -21,7 +21,7 @@
 	<select id="getTotalRow" resultType="int">
 			SELECT
 				COUNT(*)
-			FROM board
+			FROM cashbook_board
 			WHERE board_title Like CONCAT('%',#{searchWord},'%')
 	</select>
 	<!-- boardNo로 해당게시글 정보 가져오기 -->
@@ -33,7 +33,7 @@
 			member_id memberId,
 			board_date boardDate,
 			board_pic boardPic
-		FROM board
+		FROM cashbook_board
 		WHERE Board_no = #{boardNo}
 	</select>	
 
@@ -41,14 +41,14 @@
 	<select id="firstBoardNo" resultType="int">
 		SELECT 
 			MAX(board_no)
-		FROM board	
+		FROM cashbook_board	
 	</select>
 	
 	<!-- 마지막 글 번호로 이전 다음 게시판글 출력 -->
 	<select id="lastBoardNo" resultType="int">
 		SELECT
 			MIN(board_no)
-		FROM board
+		FROM cashbook_board
 	</select>
 	
 	<!-- 다음넘버 가져오기 LAG 사용 -->
@@ -56,7 +56,7 @@
 		SELECT IFNULL(b.board_no, #{boardNo})
 		FROM (SELECT board_no
 				LAG(board_no) OVER(ORDER BY board_no DESC) AS board_no
-		FROM board
+		FROM cashbook_board
 		)b
 		WHERE board_no =#{boardNo}
 	</select>
@@ -66,7 +66,7 @@
 		SELECT IFNULL(b.board_no,#{boardNo})
 		FROM (SELECT board_no)
 				LEAD(board_no) OVER(ORDER BY board_no DESC) AS board_no
-		FROM board
+		FROM cashbook_board
 		)b
 		WHERE board_no =#{boardNo}
 	</select>

@@ -59,7 +59,7 @@
 <div class="container">
 <div class="title">
 	<h1>로그인</h1>
-	<form id="loginForm" method="post" action="/login" class="was-validated">
+	<form id="loginForm" method="post" th:action="@{/login}" class="was-validated">
 		<div class="form-group">
 			member_id : 
 			<input type="text" id="memberId" name="memberId" class="form-control" required>

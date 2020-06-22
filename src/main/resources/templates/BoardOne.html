@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+
+<!-- jQuery library -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+<!-- Popper JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+
+<!-- Latest compiled JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+
+</head>
+<body>
+	<div th:include="/include/menu::sidemenu" id="aside"></div> 
+		<div class="container">
+		<h1>게시글 보기</h1>
+	<br>
+		<a th:if="${board.boardNo} ==${firstBoardNo}" th:href="@{/BoardOne(boardNo=${board.boardNo})}">이전글</a> 
+		<a th:unless="${board.boardNo}==${firstBoardNo}" th:href="@{/BoardOne(boardNo=${board.boardNo})}">이전글</a>
+		
+				<a th:if="${board.boardNo} ==${lastBoardNo}" th:href="@{/BoardOne(boardNo=${board.boardNo})}">이전글</a> 
+		<a th:unless="${board.boardNo}==${lastBoardNo}" th:href="@{/BoardOne(boardNo=${board.boardNo})}">이전글</a>
+		<br>
+	<div>
+		글제목
+		<input type="text" readonly="readonly" th:value="${board.memberId}">
+	</div>	
+	<div>
+		작성자/ 작성일
+		<input type="text" readonly="readonly" th:value="${board.memberId}" id="memberId">
+		<input type="text" readonly="readonly" th:value="${board.boardDate}">
+	</div>
+	<div>
+		글내용
+		<textarea class="noresize" rows="3" cols="50" readonly="readonly" th:text="${board.boardContet}" style="padding:20px"></textarea>
+	</div><br>
+		
+	<div><a th:href="@{boardList}">목록</a></div>
+	
+</body>
+</html>

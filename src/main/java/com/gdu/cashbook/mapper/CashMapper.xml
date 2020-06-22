@@ -11,7 +11,7 @@
 		SELECT DAY(cash_date) as day, 
 			   SUM(CASE WHEN cash_find='수입' THEN cash_price
 			   		WHEN cash_find='지출' THEN -cash_price END) as price
-		FROM cash
+		FROM cashbook_cash
 		WHERE member_id = #{memberId} 
 		AND YEAR(cash_date) = #{year}
 		AND MONTH(cash_date) = #{month}
@@ -25,17 +25,17 @@
 				parameterType="com.gdu.cashbook.vo.Cash"
 				resultType="int">
 		SELECT 
-			(SELECT IFNULL(SUM(cash_price),0) FROM cash 
+			(SELECT IFNULL(SUM(cash_price),0) FROM cashbook_cash 
 			WHERE member_id=#{memberId} AND cash_find='수입' AND cash_date=#{cashDate})
 			-
-			(SELECT IFNULL(SUM(cash_price),0) FROM cash
+			(SELECT IFNULL(SUM(cash_price),0) FROM cashbook_cash
 			WHERE member_id=#{memberId} AND cash_find='지출' AND cash_date=#{cashDate})
 		FROM dual
 	</select>
 	<!-- 삭제하기 -->
 	<delete id ="deleteCash" parameterType="com.gdu.cashbook.vo.Cash">
 		DELETE FROM
-		cash
+		cashbook_cash
 		WHERE
 		cash_no = #{cashNo}
 	</delete>
@@ -44,7 +44,7 @@
 	<!-- 리스트수정 -->	
 	<update id="updateCash" parameterType="com.gdu.cashbook.vo.Cash">
 		UPDATE
-		cash SET
+		cashbook_cash SET
 		category_name=#{categoryName},
 		cash_find=#{cashFind},
 		cash_price=#{cashPrice},
@@ -67,7 +67,7 @@
 				cash_price cashPrice,
 				cash_place cashPlace,
 				cash_memo cashMemo
-		FROM cash
+		FROM cashbook_cash
 		WHERE
 				cash_no=#{cashNo}
 
@@ -76,7 +76,7 @@
 	<!-- 가게부 입력 -->
 	
 	<insert id="insertCash" parameterType="com.gdu.cashbook.vo.Cash">
-		INSERT INTO cash(
+		INSERT INTO cashbook_cash(
 			member_id,
 			cash_date,
 			cash_find,
@@ -108,7 +108,7 @@
 			cash_price as cashPrice,
 			cash_place as cashPlace,
 			cash_memo as cashMemo
-		FROM cash
+		FROM cashbook_cash
 		WHERE member_id = #{memberId}
 		AND cash_date = #{cashDate}
 		ORDER BY cash_no ASC

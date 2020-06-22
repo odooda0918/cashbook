@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+
+<!-- jQuery library -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+<!-- Popper JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+
+<!-- Latest compiled JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+
+<script>
+	let helperInit = function () {
+		$("#idHelper").text("");
+		$("#pwHelper").text("");
+	}
+	$(document).ready(function () {
+		$("#adminbtn").click(function () {
+		helperInit();
+		if($("#adminId").val().length<4){
+			$("#idHelper").text("아이디를 확인 하세요");
+			$("#adminId").focus();
+			return;
+		}
+		if($("#adminId").val().length<4){
+			$("#pwHelper").text("비밀번호를 확인 하세요");
+			$("#adminPw").focus();
+			return;
+		}
+		$("#adminForm").submit();		
+		});
+	});
+
+</script>
+
+</head>
+<body>
+<div class="container">
+<div class="title">
+	<h1>관리자 로그인</h1>
+	<form id="adminForm" method="post" th:action="@{/adminLogin}">
+		<div class="form-group">
+			아이디:
+			<input id ="adminId" type="text" name="adminId" placeholder="아아디를 입력하세요" class="form-control">
+			<span id="idHelper"></span>
+		</div>
+		
+	
+	</form>
+
+
+</div>
+
+
+
+</div>
+
+
+</body>
+</html>
