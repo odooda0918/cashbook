@@ -61,7 +61,7 @@ public class MemberController {
 		}
 		//로그인이아닐떄
 		return "login";
-		
+		//추가
 	}
 	@PostMapping("/login")
 	public String Login(Model model, LoginMember loginMember, HttpSession session) { //HttpSession session = request.getSession();
